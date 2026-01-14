@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* styles.css */
+.btn-primary {
+  @apply w-50 bg-violet-700 hover:bg-violet-800
+         focus:outline-2 focus:outline-offset-2 focus:outline-violet-700
+         active:bg-violet-800
+         rounded-4xl p-1.5 h-14
+         flex items-center justify-center text-center;
+}
