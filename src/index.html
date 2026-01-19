@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="./output.css" rel="stylesheet">
-  <title>Tailwind Project</title>
+  <title>Memory Game</title>
 </head>
 <body class="relative min-h-screen">
     <div class="bg-gradient-to-r from-[#0f172a]  to-[#334155] absolute top-0 left-0 w-full h-full z-0"></div>
 
-    <div class="relative top-25 flex flex-col items-center w-full justify-center "">
+    <div id="menu" class="section">
         <div>
             <h1 class="text-5xl font-bold text-white text-center">Memory Game</h1>
         </div>
@@ -19,9 +19,25 @@
         </div>
 
         <div class="mt-20 w-full flex items-center justify-center gap-10">
-            <a class="btn-primary" href="./solitaria.html">Solitaria</a>
-            <a class="btn-primary" href="./1v1.html">1v1</a>
+            <button class="btn-primary" id="solitaria">Solitaria</button>
+            <button class="btn-primary" id="1v1">1v1</button>
+        </div>
+
+        <div id="hidden_section1" class="hidden">
+            <div>
+                <h1 class="text-5xl text-center text-white font-bold mt-10">Seleziona una difficoltà</h1>
+            </div>
+
+            <div class="mt-10 w-full flex flex-row items-center justify-center gap-7">
+                <a class="btn-primary" href="#">Facile</a>
+                <a class="btn-primary" href="#">Medio</a>
+                <a class="btn-primary" href="#">Difficile</a>
+            </div>
         </div>
     </div>
+
+    <div id="mode" class="section hidden"></div>
+    <div id="difficulty" class="section hidden"></div>
+    <script src="script/script.js"></script>
 </body>
 </html>

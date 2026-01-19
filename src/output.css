@@ -179,9 +179,6 @@
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
-  .top-25 {
-    top: calc(var(--spacing) * 25);
-  }
   .left-0 {
     left: calc(var(--spacing) * 0);
   }
@@ -194,11 +191,14 @@
   .mt-20 {
     margin-top: calc(var(--spacing) * 20);
   }
+  .block {
+    display: block;
+  }
   .flex {
     display: flex;
   }
-  .h-14 {
-    height: calc(var(--spacing) * 14);
+  .hidden {
+    display: none;
   }
   .h-full {
     height: 100%;
@@ -206,14 +206,8 @@
   .min-h-screen {
     min-height: 100vh;
   }
-  .w-50 {
-    width: calc(var(--spacing) * 50);
-  }
   .w-full {
     width: 100%;
-  }
-  .flex-col {
-    flex-direction: column;
   }
   .flex-row {
     flex-direction: row;
@@ -230,12 +224,6 @@
   .gap-10 {
     gap: calc(var(--spacing) * 10);
   }
-  .rounded-4xl {
-    border-radius: var(--radius-4xl);
-  }
-  .bg-violet-700 {
-    background-color: var(--color-violet-700);
-  }
   .bg-gradient-to-r {
     --tw-gradient-position: to right in oklab;
     background-image: linear-gradient(var(--tw-gradient-stops));
@@ -247,9 +235,6 @@
   .to-\[\#334155\] {
     --tw-gradient-to: #334155;
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
-  .p-1\.5 {
-    padding: calc(var(--spacing) * 1.5);
   }
   .text-center {
     text-align: center;
@@ -268,34 +253,6 @@
   }
   .text-white {
     color: var(--color-white);
-  }
-  .hover\:bg-violet-800 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-violet-800);
-      }
-    }
-  }
-  .focus\:outline-2 {
-    &:focus {
-      outline-style: var(--tw-outline-style);
-      outline-width: 2px;
-    }
-  }
-  .focus\:outline-offset-2 {
-    &:focus {
-      outline-offset: 2px;
-    }
-  }
-  .focus\:outline-violet-700 {
-    &:focus {
-      outline-color: var(--color-violet-700);
-    }
-  }
-  .active\:bg-violet-800 {
-    &:active {
-      background-color: var(--color-violet-800);
-    }
   }
 }
 .btn-primary {
@@ -326,6 +283,15 @@
   &:active {
     background-color: var(--color-violet-800);
   }
+}
+.section {
+  position: relative;
+  top: calc(var(--spacing) * 25);
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 @property --tw-gradient-position {
   syntax: "*";
