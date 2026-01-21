@@ -1,6 +1,7 @@
 const GAME_CONFIG = {
     difficulties: {
         facile: { rows: 4, cols: 4 },
+        // facile: { rows: 2, cols: 4 },
         medio: { rows: 4, cols: 6 },
         difficile: { rows: 5, cols: 8 }
     }
@@ -46,6 +47,7 @@ let timeoutId = null;
 let ms = 0;
 let sec = 0;
 let min = 0;
+const table = document.getElementById("solitaria_table");
 
 difficulty_buttons.addEventListener("click", (event) => {
     const isButton = event.target.nodeName === 'BUTTON';
@@ -175,7 +177,6 @@ function reset() {
 
 
 function createTable(rows, cols) {
-    const table = document.getElementById("solitaria_table");
     table.innerHTML = "";
 
     const carteTotali = rows * cols;
@@ -197,12 +198,14 @@ function createTable(rows, cols) {
 
             const div = document.createElement("div");
             div.className = "w-full h-full flex items-center justify-center";
+            div.id = `card_container${index}`;
 
             const front_card = document.createElement("div");
-            front_card.className = "w-full h-full rounded-lg";
+            front_card.className = "hidden w-full h-full rounded-lg";
+            front_card.dataset.cardValue = cards[index];
 
             const back_card = document.createElement("div");
-            back_card.className = "hidden bg-blue-500 w-full h-full rounded-lg";
+            back_card.className = "bg-blue-500 w-full h-full rounded-lg";
 
             setCardImage(front_card, cards[index]);
             index++;
@@ -214,73 +217,19 @@ function createTable(rows, cols) {
 
         tbody.appendChild(tr);
     }
+
+
+    checkInput(cols, rows);
 }
 
 
-// function createTable(rows, cols, config){
-//     let table = document.getElementById("solitaria_table");
-//     let k;
-//     let numeri = [];
-//     table.appendChild(document.createElement("tbody"));
-//     for(let i = 0; i < rows; i++){
-//         let tr = document.createElement("tr");
-//         for(let j = 0; j < cols; j++){
-//             let td = document.createElement("td");
-//             td.className = "w-30 h-30 bg-white rounded-lg";
-//             tr.appendChild(td);
-//             let div = td.appendChild(document.createElement("div"));
-//             div.className = "w-full h-full flex items-center justify-center text-center";
-//             div.id = `cell_${i}_${j}`;
-//             let front_card = div.appendChild(document.createElement("div"));
-//             let back_card = div.appendChild(document.createElement("div"));
-//             front_card.className = "w-full h-full rounded-lg flex items-center justify-center text-center";
-//             back_card.className = "hidden bg-blue-500 w-full h-full rounded-lg flex items-center justify-center text-center";
-//             generaImg(front_card, k, numeri);
-//         }
-//         table.querySelector("tbody").appendChild(tr);
-//     }
-// }
-
-
 function setCardImage(front_card, k) {
-    front_card.style.backgroundImage =
-        `url(../../assets/facile/emoji${k}.png)`;
+    front_card.style.backgroundImage = `url(../../assets/facile/emoji${k}.png)`;
     front_card.style.backgroundSize = "60%";
     front_card.style.backgroundRepeat = "no-repeat";
     front_card.style.backgroundPosition = "center";
 }
 
-// function generaImg(front_card, k, numeri){
-//     k = Math.floor(Math.random() * 8) + 1;
-//     numeri.push(k);
-//     switch(usrSettings.difficulty){
-//         case "facile":
-//             const cards = generaCoppie(8);
-//             cards.forEach(card => {
-//                 front_card.style.backgroundImage = `url(../../assets/facile/emoji${card}.png)`;
-//                 front_card.style.backgroundSize = "60%";
-//                 front_card.style.backgroundRepeat = "no-repeat";
-//                 front_card.style.backgroundPosition = "center";
-//             })
-//             // while(numeri.filter(num => num === k).length > 1){
-//             //     k = Math.floor(Math.random() * 8) + 1;
-//             //     numeri.pop();
-//             //     numeri.push(k);
-//             //     if(numeri.length >= 8){
-//             //         numeri = [];
-//             //     }
-//             // }
-//             // front_card.style.backgroundImage = `url(../../assets/facile/emoji${k}.png)`;
-//             // front_card.style.backgroundSize = "60%";
-//             // front_card.style.backgroundRepeat = "no-repeat";
-//             // front_card.style.backgroundPosition = "center";
-//             break;
-//         case "medio":
-//             break;
-//         case "difficile":
-//             break;
-//     }
-// }
 
 function generaCoppie(numCoppie){
     const arr = [];
@@ -299,4 +248,71 @@ function shuffle(arr) {
     	[arr[i], arr[j]] = [arr[j], arr[i]];
   	}
   	return arr;
+}
+
+function checkInput(cols, rows){
+    for(let i = 0; i < cols * rows; i++){
+        const card = document.getElementById(`card_container${i}`);
+        card.addEventListener("click", () => {
+            flipCard(card, rows, cols);
+        })
+    }
+}
+
+function flipCard(card, rows, cols){
+    const front_card = card.children[0];
+    const back_card = card.children[1];
+    card.style.pointerEvents = "none";
+
+    front_card.classList.remove("hidden", "flipped");
+    front_card.classList.add("not-hidden")
+    back_card.classList.add("hidden", "flipped");
+
+    checkMatch(rows, cols);
+}
+
+
+function checkMatch(rows, cols){
+    if(table.getElementsByClassName("not-hidden").length === 2){
+        const flippedCards = table.getElementsByClassName("not-hidden");
+        const firstCard = flippedCards[0];
+        const secondCard = flippedCards[1];
+
+        if(firstCard.dataset.cardValue === secondCard.dataset.cardValue){
+            // Match found
+            firstCard.parentElement.style.pointerEvents = "none";
+            secondCard.parentElement.style.pointerEvents = "none";
+
+            firstCard.classList.remove("not-hidden");
+            secondCard.classList.remove("not-hidden");
+            firstCard.classList.add("matched");
+            secondCard.classList.add("matched");
+            setTimeout(() => {
+                firstCard.parentElement.classList.add("opacity-50");
+                secondCard.parentElement.classList.add("opacity-50");
+                console.log("punto")
+            }, 300)
+        }else{
+            setTimeout(() => {
+                firstCard.classList.add("hidden")
+                firstCard.nextSibling.classList.remove("hidden")
+                secondCard.classList.add("hidden")
+                secondCard.nextSibling.classList.remove("hidden")
+                firstCard.classList.remove("not-hidden");
+                secondCard.classList.remove("not-hidden");
+            }, 500);
+            
+
+            firstCard.parentElement.style.pointerEvents = "auto";
+            secondCard.parentElement.style.pointerEvents = "auto";
+        }
+    }
+
+    if(table.getElementsByClassName("matched").length === rows * cols){
+        pause();
+        setTimeout(() => {
+            alert("Il tuo record è" + stopwatch.innerHTML);
+            reset();
+        }, 500);
+    }
 }
