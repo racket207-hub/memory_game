@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div id="m_solitaria" class="hidden relative top-15 flex flex-col items-center w-full justify-center">
+    <div id="mode" class="hidden relative top-15 flex flex-col items-center w-full justify-center">
         <div id="start_button" class="flex items-center justify-center text-center mt-50">
             <button class="w-80 h-40 cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-4xl
                 border-blue-600
@@ -51,8 +51,34 @@
             </div>
         </div>
 
+        <div id="1v1_display" class="hidden flex">
+            <div id="turno" class="absolute flex top-3 left-171">
+                <h1 class="text-4xl text-white">È il turno del <span id="turno_colore" class="text-blue-500">blu</span></h1>
+            </div>
+            <div id="blue_points" class="absolute flex top-50 left-10">
+                <h2 class="text-3xl text-blue-500">0</h2>
+            </div>
+            <div id="red_points" class="absolute flex top-50 left-380">
+                <h2 class="text-3xl text-red-500">0</h2>
+            </div>
+        </div>
+
         <div id="table_container" class="flex items-center justify-center text-center mt-10">
-            <table id="solitaria_table" class="border-separate border-spacing-4 mt-10 flex items-center justify-center text-center"></table>
+            <table id="solitaria_table" class="border-separate border-spacing-4 mt-10 flex items-center justify-center text-center z-0"></table>
+        </div>
+
+        <div id="result" class="hidden absolute flex items-center justify-center text-center flex-col top-50 w-fit left-141.5 ms-auto h-70 w-20 p-10 bg-amber-800 rounded-2xl z-10">
+            <h1 class="text-4xl font-bold text-white" id="testo-risultato"></h1> 
+            <div class="mt-4 flex items-center justify-center gap-6 flex-col">
+                 <button id="return_home" class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-4xl
+                border-blue-600
+                border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+                active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">Torna alla home</button>
+                 <button id="restart" class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-4xl
+                border-blue-600
+                border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+                active:border-b-[2px] active:brightness-90 active:translate-y-[2px]">Gioca di nuovo</button>
+            </div>
         </div>
 
     </div>

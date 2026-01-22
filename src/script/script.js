@@ -1,7 +1,7 @@
 const GAME_CONFIG = {
     difficulties: {
-        facile: { rows: 4, cols: 4 },
-        // facile: { rows: 2, cols: 4 },
+        // facile: { rows: 4, cols: 4 },
+        facile: { rows: 2, cols: 2 },
         medio: { rows: 4, cols: 6 },
         difficile: { rows: 5, cols: 8 }
     }
@@ -104,19 +104,40 @@ function setState(state){
 function controlloInput(){
     if(usrSettings.state === "solitaria" && usrSettings.difficulty != null){
         document.getElementById("menu").style.display = "none";
-        document.getElementById("m_solitaria").style.display = "block";
-        startGame();
+        document.getElementById("mode").classList.remove("hidden");
+        startGame(false);
+    }
+
+    if(usrSettings.state === "1v1" && usrSettings.difficulty != null){
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("mode").classList.remove("hidden");
+        document.getElementById("start_button").classList.add("hidden");
+        startGame(false);
     }
 }
 
-function startGame(){
+function startGame(btn){
+
+    const config = GAME_CONFIG.difficulties[usrSettings.difficulty];
+
     document.getElementById("start_button").addEventListener("click", () => {
-        const config = GAME_CONFIG.difficulties[usrSettings.difficulty];
         document.getElementById("start_button").style.display = "none";
         document.getElementById("display_solitaria").style.display = "block";
         startTimer(true);
         createTable(config.rows, config.cols, config);
     });
+
+    if(usrSettings.state === "1v1"){
+        document.getElementById("1v1_display").classList.remove("hidden");
+        createTable(config.rows, config.cols, config)
+    }
+
+    if(btn){
+        document.getElementById("start_button").style.display = "none";
+        document.getElementById("display_solitaria").style.display = "block";
+        startTimer(true);
+        createTable(config.rows, config.cols, config);
+    }
 
 
 }
@@ -278,6 +299,7 @@ function checkMatch(rows, cols){
         const firstCard = flippedCards[0];
         const secondCard = flippedCards[1];
 
+
         if(firstCard.dataset.cardValue === secondCard.dataset.cardValue){
             // Match found
             firstCard.parentElement.style.pointerEvents = "none";
@@ -290,7 +312,8 @@ function checkMatch(rows, cols){
             setTimeout(() => {
                 firstCard.parentElement.classList.add("opacity-50");
                 secondCard.parentElement.classList.add("opacity-50");
-                console.log("punto")
+
+                checkColore(true);
             }, 300)
         }else{
             setTimeout(() => {
@@ -300,6 +323,10 @@ function checkMatch(rows, cols){
                 secondCard.nextSibling.classList.remove("hidden")
                 firstCard.classList.remove("not-hidden");
                 secondCard.classList.remove("not-hidden");
+
+                if(usrSettings.state === "1v1"){
+                    checkColore(false);
+                }
             }, 500);
             
 
@@ -311,8 +338,86 @@ function checkMatch(rows, cols){
     if(table.getElementsByClassName("matched").length === rows * cols){
         pause();
         setTimeout(() => {
-            alert("Il tuo record è" + stopwatch.innerHTML);
-            reset();
+            if(usrSettings.state === "solitaria"){
+                risultato = document.getElementById("result");
+                risultato.classList.remove("hidden");
+                document.getElementById("testo-risultato").innerText = `Hai completato il gioco in ${stopwatch.innerText}`;
+                // document.getElementById("span-risultato").innerText = stopwatch.innerText;
+                risultato.classList.add("opacity-100");
+            }else{
+                const punto_blu = document.getElementById("blue_points").children[0].innerText;
+                const punto_rosso = document.getElementById("red_points").children[0].innerText;
+                risultato = document.getElementById("result");
+                risultato.classList.remove("hidden");
+                
+                if(punto_blu > punto_rosso){
+                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Blu ${<br></br>} con  ${punto_blu} punti!`;
+                }else if(punto_rosso > punto_blu){
+                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Rosso ${<br></br>} con ${punto_rosso} punti!`;
+                }else{
+                    document.getElementById("testo-risultato").innerText = `Pareggio! I giocatori ${<br></br>} hanno ${punto_blu} punti!`;
+                }
+                risultato.classList.add("opacity-100");
+            }
+
+            const returnBtn = document.getElementById("return_home");
+            const restartBtn = document.getElementById("restart");
+            
+            if(returnBtn) {
+                returnBtn.removeEventListener("click", returnHome);
+                returnBtn.addEventListener("click", returnHome);
+            }
+            
+            if(restartBtn) {
+                restartBtn.removeEventListener("click", restartGame);
+                restartBtn.addEventListener("click", restartGame);
+            }
+
+
         }, 500);
     }
+}
+
+function returnHome() {
+    location.reload();
+}
+
+function restartGame() {
+    const risultato = document.getElementById("result");
+    risultato.classList.add("hidden");
+    reset();
+    startGame(true);
+}
+
+
+function swapTurno(puntoColore){
+    const turnoColore = document.getElementById("turno_colore");
+
+    if(puntoColore){
+        turnoColore.classList.remove("text-blue-500");
+        turnoColore.classList.add("text-red-500");
+        turnoColore.innerText = "rosso";
+    }else{
+        turnoColore.classList.remove("text-red-500");
+        turnoColore.classList.add("text-blue-500");
+        turnoColore.innerText = "blu";
+    }
+}
+
+function checkColore(boolean){
+    const punto_blu = document.getElementById("blue_points");
+    const punto_rosso = document.getElementById("red_points");
+
+    if(document.getElementById("turno_colore").innerText === "blu"){
+        if(boolean){
+            punto_blu.children[0].innerText = parseInt(punto_blu.children[0].innerText) + 1;
+        }
+        swapTurno(true);
+    }else{
+        if(boolean){
+            punto_rosso.children[0].innerText = parseInt(punto_rosso.children[0].innerText) + 1;
+        }
+        swapTurno(false);
+    }
+
 }
