@@ -185,20 +185,11 @@
   .absolute {
     position: absolute;
   }
-  .fixed {
-    position: fixed;
-  }
   .relative {
     position: relative;
   }
   .top-3 {
     top: calc(var(--spacing) * 3);
-  }
-  .top-5 {
-    top: calc(var(--spacing) * 5);
-  }
-  .top-10 {
-    top: calc(var(--spacing) * 10);
   }
   .top-15 {
     top: calc(var(--spacing) * 15);
@@ -206,74 +197,17 @@
   .top-50 {
     top: calc(var(--spacing) * 50);
   }
-  .top-100 {
-    top: calc(var(--spacing) * 100);
-  }
-  .left-0 {
-    left: calc(var(--spacing) * 0);
-  }
   .left-10 {
     left: calc(var(--spacing) * 10);
-  }
-  .left-50 {
-    left: calc(var(--spacing) * 50);
-  }
-  .left-100 {
-    left: calc(var(--spacing) * 100);
-  }
-  .left-130 {
-    left: calc(var(--spacing) * 130);
-  }
-  .left-139 {
-    left: calc(var(--spacing) * 139);
-  }
-  .left-139\.5 {
-    left: calc(var(--spacing) * 139.5);
-  }
-  .left-140 {
-    left: calc(var(--spacing) * 140);
-  }
-  .left-140\.5 {
-    left: calc(var(--spacing) * 140.5);
   }
   .left-141\.5 {
     left: calc(var(--spacing) * 141.5);
   }
-  .left-142\.5 {
-    left: calc(var(--spacing) * 142.5);
-  }
-  .left-150 {
-    left: calc(var(--spacing) * 150);
-  }
-  .left-157 {
-    left: calc(var(--spacing) * 157);
-  }
-  .left-167 {
-    left: calc(var(--spacing) * 167);
-  }
   .left-171 {
     left: calc(var(--spacing) * 171);
   }
-  .left-173 {
-    left: calc(var(--spacing) * 173);
-  }
-  .left-180 {
-    left: calc(var(--spacing) * 180);
-  }
-  .left-187 {
-    left: calc(var(--spacing) * 187);
-  }
-  .left-189 {
-    left: calc(var(--spacing) * 189);
-  }
-  .left-190 {
-    left: calc(var(--spacing) * 190);
-  }
   .left-380 {
     left: calc(var(--spacing) * 380);
-  }
-  .left-400 {
-    left: calc(var(--spacing) * 400);
   }
   .z-0 {
     z-index: 0;
@@ -314,17 +248,11 @@
   .table {
     display: table;
   }
-  .h-10 {
-    height: calc(var(--spacing) * 10);
-  }
   .h-30 {
     height: calc(var(--spacing) * 30);
   }
   .h-40 {
     height: calc(var(--spacing) * 40);
-  }
-  .h-50 {
-    height: calc(var(--spacing) * 50);
   }
   .h-70 {
     height: calc(var(--spacing) * 70);
@@ -388,9 +316,6 @@
   .overflow-hidden {
     overflow: hidden;
   }
-  .rounded {
-    border-radius: 0.25rem;
-  }
   .rounded-2xl {
     border-radius: var(--radius-2xl);
   }
@@ -430,9 +355,6 @@
   }
   .p-10 {
     padding: calc(var(--spacing) * 10);
-  }
-  .px-4 {
-    padding-inline: calc(var(--spacing) * 4);
   }
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);

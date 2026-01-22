@@ -1,7 +1,7 @@
 const GAME_CONFIG = {
     difficulties: {
-        // facile: { rows: 4, cols: 4 },
-        facile: { rows: 2, cols: 2 },
+        facile: { rows: 4, cols: 4 },
+        // facile: { rows: 2, cols: 2 },
         medio: { rows: 4, cols: 6 },
         difficile: { rows: 5, cols: 8 }
     }
@@ -35,7 +35,7 @@ function getSettings() {
 }
 
 let solitaria_btn = document.getElementById("solitaria");
-let oneVone_btn = document.getElementById("1v1");
+let oneVone_btn = document.getElementById("oneVone");
 let hidden_section1 = document.getElementById("hidden_section1");
 let gameState = "menu";
 let gameMode = null;
@@ -128,15 +128,22 @@ function startGame(btn){
     });
 
     if(usrSettings.state === "1v1"){
-        document.getElementById("1v1_display").classList.remove("hidden");
+        document.getElementById("oneVone_display").classList.remove("hidden");
         createTable(config.rows, config.cols, config)
     }
 
     if(btn){
+        if(usrSettings.state === "1v1"){
+        document.getElementById("oneVone_display").classList.remove("hidden");
+        createTable(config.rows, config.cols, config)
+    }else{
         document.getElementById("start_button").style.display = "none";
         document.getElementById("display_solitaria").style.display = "block";
         startTimer(true);
         createTable(config.rows, config.cols, config);
+    }
+
+        
     }
 
 
@@ -341,7 +348,7 @@ function checkMatch(rows, cols){
             if(usrSettings.state === "solitaria"){
                 risultato = document.getElementById("result");
                 risultato.classList.remove("hidden");
-                document.getElementById("testo-risultato").innerText = `Hai completato il gioco in ${stopwatch.innerText}`;
+                document.getElementById("testo-risultato").innerText = `Hai completato il gioco\n in ${stopwatch.innerText}`;
                 // document.getElementById("span-risultato").innerText = stopwatch.innerText;
                 risultato.classList.add("opacity-100");
             }else{
@@ -351,11 +358,11 @@ function checkMatch(rows, cols){
                 risultato.classList.remove("hidden");
                 
                 if(punto_blu > punto_rosso){
-                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Blu ${<br></br>} con  ${punto_blu} punti!`;
+                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Blu\n>con ${punto_blu} punti!`;
                 }else if(punto_rosso > punto_blu){
-                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Rosso ${<br></br>} con ${punto_rosso} punti!`;
+                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Rosso\n con ${punto_rosso} punti!`;
                 }else{
-                    document.getElementById("testo-risultato").innerText = `Pareggio! I giocatori ${<br></br>} hanno ${punto_blu} punti!`;
+                    document.getElementById("testo-risultato").innerText = `Pareggio! I giocatori\n hanno ${punto_blu} punti!`;
                 }
                 risultato.classList.add("opacity-100");
             }
