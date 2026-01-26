@@ -1,7 +1,7 @@
 const GAME_CONFIG = {
     difficulties: {
         facile: { rows: 4, cols: 4 },
-        // facile: { rows: 2, cols: 2 },
+        // facile: { rows: 2, cols: 3 },
         medio: { rows: 4, cols: 6 },
         difficile: { rows: 5, cols: 8 }
     }
@@ -10,7 +10,7 @@ const GAME_CONFIG = {
 const settings = {
     state: null,
     difficulty: null,
-    theme: "dark"
+    record: null
 };
 
 if (!localStorage.getItem("settings")) {
@@ -34,6 +34,8 @@ function getSettings() {
     return null;
 }
 
+
+
 let solitaria_btn = document.getElementById("solitaria");
 let oneVone_btn = document.getElementById("oneVone");
 let hidden_section1 = document.getElementById("hidden_section1");
@@ -48,6 +50,10 @@ let ms = 0;
 let sec = 0;
 let min = 0;
 const table = document.getElementById("solitaria_table");
+
+// createRecordTable();
+
+
 
 difficulty_buttons.addEventListener("click", (event) => {
     const isButton = event.target.nodeName === 'BUTTON';
@@ -95,11 +101,11 @@ oneVone_btn.addEventListener("click", () => {
     setSettings(usrSettings);
 })
 
-function setState(state){
-    hideAll();
-    document.getElementById(state).style.display = "block";
-    localStorage.setItem("state", state);
-}
+// function setState(state){
+//     hideAll();
+//     document.getElementById(state).style.display = "block";
+//     localStorage.setItem("state", state);
+// }
 
 function controlloInput(){
     if(usrSettings.state === "solitaria" && usrSettings.difficulty != null){
@@ -135,6 +141,8 @@ function startGame(btn){
     if(btn){
         if(usrSettings.state === "1v1"){
         document.getElementById("oneVone_display").classList.remove("hidden");
+        document.getElementById("blue_points").children[0].innerText -= parseInt(document.getElementById("blue_points").children[0].innerText)
+        document.getElementById("red_points").children[0].innerText -= parseInt(document.getElementById("red_points").children[0].innerText)
         createTable(config.rows, config.cols, config)
     }else{
         document.getElementById("start_button").style.display = "none";
@@ -351,15 +359,17 @@ function checkMatch(rows, cols){
                 document.getElementById("testo-risultato").innerText = `Hai completato il gioco\n in ${stopwatch.innerText}`;
                 // document.getElementById("span-risultato").innerText = stopwatch.innerText;
                 risultato.classList.add("opacity-100");
+                usrSettings.record = stopwatch.innerText;
+                setSettings(usrSettings);
             }else{
                 const punto_blu = document.getElementById("blue_points").children[0].innerText;
                 const punto_rosso = document.getElementById("red_points").children[0].innerText;
                 risultato = document.getElementById("result");
                 risultato.classList.remove("hidden");
                 
-                if(punto_blu > punto_rosso){
-                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Blu\n>con ${punto_blu} punti!`;
-                }else if(punto_rosso > punto_blu){
+                if(parseInt(punto_blu) > parseInt(punto_rosso)){
+                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Blu\n>con ${parseInt(punto_blu)} punti!`;
+                }else if(parseInt(punto_rosso) > parseInt(punto_blu)){
                     document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Rosso\n con ${punto_rosso} punti!`;
                 }else{
                     document.getElementById("testo-risultato").innerText = `Pareggio! I giocatori\n hanno ${punto_blu} punti!`;
@@ -369,6 +379,7 @@ function checkMatch(rows, cols){
 
             const returnBtn = document.getElementById("return_home");
             const restartBtn = document.getElementById("restart");
+
             
             if(returnBtn) {
                 returnBtn.removeEventListener("click", returnHome);
@@ -376,6 +387,7 @@ function checkMatch(rows, cols){
             }
             
             if(restartBtn) {
+                
                 restartBtn.removeEventListener("click", restartGame);
                 restartBtn.addEventListener("click", restartGame);
             }
@@ -418,13 +430,42 @@ function checkColore(boolean){
     if(document.getElementById("turno_colore").innerText === "blu"){
         if(boolean){
             punto_blu.children[0].innerText = parseInt(punto_blu.children[0].innerText) + 1;
+            // return;
+        }else{
+            swapTurno(true);
         }
-        swapTurno(true);
+        
     }else{
         if(boolean){
             punto_rosso.children[0].innerText = parseInt(punto_rosso.children[0].innerText) + 1;
+            // return;
+        }else{
+            swapTurno(false);
         }
-        swapTurno(false);
+        
     }
 
+}
+
+function createRecordTable(){
+    const table = document.getElementById("tabella-valore")
+
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+
+    for(let i = 0; i < 10; i++){
+        const tr = document.createElement("tr");
+        
+         for (let j = 0; j < 3; j++) {
+            const td = document.createElement("td");
+            td.className = "w-10 h-20 bg-white";
+            td.innerText = "-"
+
+            const div = document.createElement("div");
+            div.className = "w-full h-full flex items-center justify-center";
+
+            td.appendChild(div);
+            tr.appendChild(td);
+         }
+    }
 }
