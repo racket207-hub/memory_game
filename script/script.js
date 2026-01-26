@@ -260,7 +260,7 @@ function createTable(rows, cols) {
 
 
 function setCardImage(front_card, k) {
-    front_card.style.backgroundImage = `url(../../assets/facile/emoji${k}.png)`;
+    front_card.style.backgroundImage = `url(./assets/facile/emoji${k}.png)`;
     front_card.style.backgroundSize = "60%";
     front_card.style.backgroundRepeat = "no-repeat";
     front_card.style.backgroundPosition = "center";
