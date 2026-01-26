@@ -24,10 +24,10 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Tailwind CSS
-        run: npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify
+        run: npm run build:css
 
       - name: Upload dist folder
         uses: actions/upload-pages-artifact@v3
