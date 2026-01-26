@@ -318,4 +318,154 @@ function checkMatch(rows, cols){
         if(firstCard.dataset.cardValue === secondCard.dataset.cardValue){
             // Match found
             firstCard.parentElement.style.pointerEvents = "none";
-            secondCard.parentEle
+            secondCard.parentElement.style.pointerEvents = "none";
+
+            firstCard.classList.remove("not-hidden");
+            secondCard.classList.remove("not-hidden");
+            firstCard.classList.add("matched");
+            secondCard.classList.add("matched");
+            setTimeout(() => {
+                firstCard.parentElement.classList.add("opacity-50");
+                secondCard.parentElement.classList.add("opacity-50");
+
+                checkColore(true);
+            }, 300)
+        }else{
+            setTimeout(() => {
+                firstCard.classList.add("hidden")
+                firstCard.nextSibling.classList.remove("hidden")
+                secondCard.classList.add("hidden")
+                secondCard.nextSibling.classList.remove("hidden")
+                firstCard.classList.remove("not-hidden");
+                secondCard.classList.remove("not-hidden");
+
+                if(usrSettings.state === "1v1"){
+                    checkColore(false);
+                }
+            }, 500);
+            
+
+            firstCard.parentElement.style.pointerEvents = "auto";
+            secondCard.parentElement.style.pointerEvents = "auto";
+        }
+    }
+
+    if(table.getElementsByClassName("matched").length === rows * cols){
+        pause();
+        setTimeout(() => {
+            if(usrSettings.state === "solitaria"){
+                risultato = document.getElementById("result");
+                risultato.classList.remove("hidden");
+                document.getElementById("testo-risultato").innerText = `Hai completato il gioco\n in ${stopwatch.innerText}`;
+                // document.getElementById("span-risultato").innerText = stopwatch.innerText;
+                risultato.classList.add("opacity-100");
+                usrSettings.record = stopwatch.innerText;
+                setSettings(usrSettings);
+            }else{
+                const punto_blu = document.getElementById("blue_points").children[0].innerText;
+                const punto_rosso = document.getElementById("red_points").children[0].innerText;
+                risultato = document.getElementById("result");
+                risultato.classList.remove("hidden");
+                
+                if(parseInt(punto_blu) > parseInt(punto_rosso)){
+                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Blu\n>con ${parseInt(punto_blu)} punti!`;
+                }else if(parseInt(punto_rosso) > parseInt(punto_blu)){
+                    document.getElementById("testo-risultato").innerText = `Ha vinto il giocatore Rosso\n con ${punto_rosso} punti!`;
+                }else{
+                    document.getElementById("testo-risultato").innerText = `Pareggio! I giocatori\n hanno ${punto_blu} punti!`;
+                }
+                risultato.classList.add("opacity-100");
+            }
+
+            const returnBtn = document.getElementById("return_home");
+            const restartBtn = document.getElementById("restart");
+
+            
+            if(returnBtn) {
+                returnBtn.removeEventListener("click", returnHome);
+                returnBtn.addEventListener("click", returnHome);
+            }
+            
+            if(restartBtn) {
+                
+                restartBtn.removeEventListener("click", restartGame);
+                restartBtn.addEventListener("click", restartGame);
+            }
+
+
+        }, 500);
+    }
+}
+
+function returnHome() {
+    location.reload();
+}
+
+function restartGame() {
+    const risultato = document.getElementById("result");
+    risultato.classList.add("hidden");
+    reset();
+    startGame(true);
+}
+
+
+function swapTurno(puntoColore){
+    const turnoColore = document.getElementById("turno_colore");
+
+    if(puntoColore){
+        turnoColore.classList.remove("text-blue-500");
+        turnoColore.classList.add("text-red-500");
+        turnoColore.innerText = "rosso";
+    }else{
+        turnoColore.classList.remove("text-red-500");
+        turnoColore.classList.add("text-blue-500");
+        turnoColore.innerText = "blu";
+    }
+}
+
+function checkColore(boolean){
+    const punto_blu = document.getElementById("blue_points");
+    const punto_rosso = document.getElementById("red_points");
+
+    if(document.getElementById("turno_colore").innerText === "blu"){
+        if(boolean){
+            punto_blu.children[0].innerText = parseInt(punto_blu.children[0].innerText) + 1;
+            // return;
+        }else{
+            swapTurno(true);
+        }
+        
+    }else{
+        if(boolean){
+            punto_rosso.children[0].innerText = parseInt(punto_rosso.children[0].innerText) + 1;
+            // return;
+        }else{
+            swapTurno(false);
+        }
+        
+    }
+
+}
+
+function createRecordTable(){
+    const table = document.getElementById("tabella-valore")
+
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+
+    for(let i = 0; i < 10; i++){
+        const tr = document.createElement("tr");
+        
+         for (let j = 0; j < 3; j++) {
+            const td = document.createElement("td");
+            td.className = "w-10 h-20 bg-white";
+            td.innerText = "-"
+
+            const div = document.createElement("div");
+            div.className = "w-full h-full flex items-center justify-center";
+
+            td.appendChild(div);
+            tr.appendChild(td);
+         }
+    }
+}
